@@ -17,25 +17,23 @@ public class IntJoukko {
     }
 
     public IntJoukko(int kapasiteetti) {
+		this();
         if (kapasiteetti < 0) {
             return;
         }
         taulukko = new int[kapasiteetti];
-        alkioidenLkm = 0;
-        this.kasvatuskoko = OLETUSKASVATUS;
 
     }
     
     
     public IntJoukko(int kapasiteetti, int kasvatuskoko) {
-        if (kapasiteetti < 0) {
-            throw new IllegalArgumentException("Kapasiteetti ei voi olla negatiivinen.");
-        }
+		this(kapasiteetti);
+//        if (kapasiteetti < 0) {
+//            throw new IllegalArgumentException("Kapasiteetti ei voi olla negatiivinen.");
+//        }
         if (kasvatuskoko < 0) {
             throw new IllegalArgumentException("kasavatuskoko ei voi olla negatiivinen");
         }
-        taulukko = new int[kapasiteetti];
-        alkioidenLkm = 0;
         this.kasvatuskoko = kasvatuskoko;
 
     }
