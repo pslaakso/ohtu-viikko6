@@ -1,6 +1,7 @@
 
 package com.mycompany.ohmawebkauppa.sovelluslogiikka.ohjaus;
 
+import com.mycompany.webkauppa.ohjaus.Komentotehdas;
 import com.mycompany.webkauppa.ohjaus.OstoksenSuoritus;
 import com.mycompany.webkauppa.sovelluslogiikka.*;
 import com.mycompany.webkauppa.ulkoiset_rajapinnat.*;
@@ -13,8 +14,10 @@ public class OstoksenSuoritusTest {
     PankkiFasaadi hylkaavaPankki = teeHylkaavaPankki();
     ToimitusjarjestelmaFasaadi toimitusJarjestelma = ToimitusjarjestelmaFasaadi.getInstance();
     Varasto varasto = Varasto.getInstance();
-    
-    long tuoteId1;
+
+	Komentotehdas komennot = new Komentotehdas();
+
+	long tuoteId1;
     long tuoteId2;
     Tuote tuote1;
     Tuote tuote2;
@@ -43,7 +46,7 @@ public class OstoksenSuoritusTest {
     
     @Test
     public void josMaksuOnnistuuKoriTyhjenee() {
-        ostoksenSuoritus = new OstoksenSuoritus(nimi, osoite, luottokortti, kori);
+        ostoksenSuoritus = komennot.ostoksenSuoritus(nimi, osoite, luottokortti, kori);//new OstoksenSuoritus(nimi, osoite, luottokortti, kori);
         ostoksenSuoritus.suorita();
 
         assertEquals(0, kori.ostokset().size());
@@ -53,13 +56,13 @@ public class OstoksenSuoritusTest {
     
     @Test
     public void josMaksuOnnistuuPankinRajapintaaKaytetty() {
-        ostoksenSuoritus = new OstoksenSuoritus(nimi, osoite, luottokortti, kori);
+        ostoksenSuoritus = komennot.ostoksenSuoritus(nimi, osoite, luottokortti, kori);//new OstoksenSuoritus(nimi, osoite, luottokortti, kori);
         ostoksenSuoritus.suorita();       
     }   
 
     @Test
     public void josMaksuOnnistuuToiRajmituksenapintaaKaytetty() {
-        ostoksenSuoritus = new OstoksenSuoritus(nimi, osoite, luottokortti, kori);
+        ostoksenSuoritus = komennot.ostoksenSuoritus(nimi, osoite, luottokortti, kori);// new OstoksenSuoritus(nimi, osoite, luottokortti, kori);
         ostoksenSuoritus.suorita();       
     }             
 
@@ -67,7 +70,7 @@ public class OstoksenSuoritusTest {
      
     @Test
     public void josPankkiEiHyvaksyMaksuaPalautetaanFalseToimitustaEiTehda() {        
-        ostoksenSuoritus = new OstoksenSuoritus(nimi, osoite, luottokortti, kori);
+        ostoksenSuoritus = komennot.ostoksenSuoritus(nimi, osoite, luottokortti, kori);//new OstoksenSuoritus(nimi, osoite, luottokortti, kori);
         ostoksenSuoritus.setPankki(hylkaavaPankki);
  
         

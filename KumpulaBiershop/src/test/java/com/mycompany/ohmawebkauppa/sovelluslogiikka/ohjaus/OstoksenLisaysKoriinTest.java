@@ -1,5 +1,7 @@
 package com.mycompany.ohmawebkauppa.sovelluslogiikka.ohjaus;
 
+import com.mycompany.webkauppa.ohjaus.Komento;
+import com.mycompany.webkauppa.ohjaus.Komentotehdas;
 import com.mycompany.webkauppa.ohjaus.OstoksenLisaysKoriin;
 import com.mycompany.webkauppa.sovelluslogiikka.*;
 import org.junit.Before;
@@ -12,8 +14,9 @@ public class OstoksenLisaysKoriinTest {
     Ostoskori kori;    
     long tuoteid = 1;
     Tuote tuote;
-    
-    OstoksenLisaysKoriin ostoksenLisays;
+
+	Komentotehdas komennnot = new Komentotehdas();
+	Komento ostoksenLisays;
     
     @Before
     public void setUp() {
@@ -26,7 +29,8 @@ public class OstoksenLisaysKoriinTest {
     
     @Test
     public void koriSisaltaaLisatynTuotteen() {
-        ostoksenLisays = new OstoksenLisaysKoriin(kori, tuoteid);
+        ostoksenLisays = komennnot.ostoksenLisaysKoriin(kori, tuoteid);//new OstoksenLisaysKoriin(kori, tuoteid);
+
         ostoksenLisays.suorita();
     
         assertEquals(1, kori.tuotteitaKorissa());
@@ -38,7 +42,7 @@ public class OstoksenLisaysKoriinTest {
     public void tuotteenMaaraVahentyy(){
         int varastossaAluksi = varasto.etsiTuote(tuoteid).getSaldo();
         
-        ostoksenLisays = new OstoksenLisaysKoriin(kori, tuoteid);
+        ostoksenLisays = komennnot.ostoksenLisaysKoriin(kori, tuoteid);//new OstoksenLisaysKoriin(kori, tuoteid);
         ostoksenLisays.suorita();
     
         assertEquals(varastossaAluksi-1, varasto.etsiTuote(tuoteid).getSaldo());
@@ -48,7 +52,7 @@ public class OstoksenLisaysKoriinTest {
     public void josTuotteenVarastosaldoNollaEiTuotettaLaitetaOstoskoriin() {
         varasto.etsiTuote(tuoteid).setSaldo(0);
         
-        ostoksenLisays = new OstoksenLisaysKoriin(kori, tuoteid);
+        ostoksenLisays = komennnot.ostoksenLisaysKoriin(kori, tuoteid);//new OstoksenLisaysKoriin(kori, tuoteid);
         ostoksenLisays.suorita();
     
         assertEquals(0, kori.tuotteitaKorissa());
