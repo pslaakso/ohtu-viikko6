@@ -29,6 +29,15 @@ public class QueryBuilder {
 		return new QueryBuilder(matchers);
 	}
 
+
+	public Matcher oneOf(Matcher... matchers) {
+		Matcher[] m = new Matcher[this.matchers.size()];
+		for (int i=0; i<this.matchers.size(); i++) {
+			m[i] = this.matchers.get(i);
+		}
+		return new Or(m);
+	}
+
 	public Matcher build() {
 		Matcher[] m = new Matcher[this.matchers.size()];
 		for (int i=0; i<this.matchers.size(); i++) {

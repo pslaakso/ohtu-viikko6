@@ -1,6 +1,7 @@
 package statistics.matcher;
 
 import junit.framework.Assert;
+import static junit.framework.Assert.assertTrue;
 import junit.framework.TestCase;
 import statistics.Player;
 import statistics.PlayerReaderImpl;
@@ -36,20 +37,6 @@ public class QueryBuilderTest extends TestCase {
 		super.tearDown();
 	}
 
-	/**
-	 * Test of playsIn method, of class QueryBuilder.
-	 */
-	public void testPlaysIn() {
-//		System.out.println("playsIn");
-//		String teamName = "";
-//		QueryBuilder instance = new QueryBuilder();
-//		QueryBuilder expResult = null;
-//		QueryBuilder result = instance.playsIn(teamName);
-//		assertEquals(expResult, result);
-//		// TODO review the generated test code and remove the default call to fail.
-//		fail("The test case is a prototype.");
-	}
-
 	public void testQueryBuilder() {
 		StringBuilder sb1 = new StringBuilder();
 		for (Player player : stats.matches(oldStyleMatcher)) {
@@ -63,46 +50,32 @@ public class QueryBuilderTest extends TestCase {
 		Assert.assertTrue(sb1.toString().equals(sb2.toString()));
 	}
 
-	/**
-	 * Test of hasAtLeast method, of class QueryBuilder.
-	 */
-	public void testHasAtLeast() {
-//		System.out.println("hasAtLeast");
-//		int value = 0;
-//		String category = "";
-//		QueryBuilder instance = new QueryBuilder();
-//		QueryBuilder expResult = null;
-//		QueryBuilder result = instance.hasAtLeast(value, category);
-//		assertEquals(expResult, result);
-//		// TODO review the generated test code and remove the default call to fail.
-//		fail("The test case is a prototype.");
+	public void testOneOf() {
+		QueryBuilder query = new QueryBuilder();
+		Matcher m1 = query.playsIn("PHI")
+				.hasAtLeast(10, "goals")
+				.hasFewerThan(15, "assists").build();
+		for (Player player : stats.matches(m1)) {
+			assertTrue("matcher1", player.getGoals()>=10 && player.getAssists()<15 && player.getTeam().contains("PHI"));
+		}
+		QueryBuilder q2 = new QueryBuilder();
+		Matcher m2 = q2.playsIn("EDM")
+                  .hasAtLeast(50, "points").build();
+		for (Player player : stats.matches(m2)) {
+			Assert.assertTrue("matcher2", player.getPoints()>=50 && player.getTeam().contains("EDM"));
+		}
+
+		QueryBuilder q3 = new QueryBuilder();
+		Matcher m = q3.oneOf(m1, m2);
+		for (Player player : stats.matches(m)) {
+			boolean b1 = player.getGoals()>=10 && player.getAssists()<15 && player.getTeam().contains("PHI");
+//			Assert.assertTrue("b1", b1);
+			boolean b2 = player.getPoints()>=50 && player.getTeam().contains("EDM");
+//			Assert.assertTrue("b2",b2);
+
+			System.out.println(player);
+			Assert.assertTrue(b1 || b2);
+		}
 	}
 
-	/**
-	 * Test of hasFewerThan method, of class QueryBuilder.
-	 */
-	public void testHasFewerThan() {
-//		System.out.println("hasFewerThan");
-//		int value = 0;
-//		String category = "";
-//		QueryBuilder instance = new QueryBuilder();
-//		QueryBuilder expResult = null;
-//		QueryBuilder result = instance.hasFewerThan(value, category);
-//		assertEquals(expResult, result);
-//		// TODO review the generated test code and remove the default call to fail.
-//		fail("The test case is a prototype.");
-	}
-
-	/**
-	 * Test of build method, of class QueryBuilder.
-	 */
-	public void testBuild() {
-//		System.out.println("build");
-//		QueryBuilder instance = new QueryBuilder();
-//		Matcher expResult = null;
-//		Matcher result = instance.build();
-//		assertEquals(expResult, result);
-//		// TODO review the generated test code and remove the default call to fail.
-//		fail("The test case is a prototype.");
-	}
 }
