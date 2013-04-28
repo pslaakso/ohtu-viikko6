@@ -14,5 +14,16 @@ public class Main {
         for (Player player : stats.matches(m)) {
             System.out.println( player );
         }
-    }
+
+		System.out.println("---------------------- Builder ----------------------");
+
+		QueryBuilder query = new QueryBuilder();
+		Matcher matcher = query.playsIn("NYR")
+                     .hasAtLeast(10, "goals")
+                     .hasFewerThan(25, "assists").build();
+
+		for (Player player : stats.matches(matcher)) {
+			System.out.println(player);
+		}
+	}
 }
