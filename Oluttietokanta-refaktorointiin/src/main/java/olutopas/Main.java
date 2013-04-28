@@ -12,6 +12,8 @@ import olutopas.model.Brewery;
 import com.avaje.ebean.Transaction;
 import olutopas.model.Rating;
 import olutopas.model.User;
+import olutopas.tietokanta.Datamapper;
+import olutopas.tietokanta.EbeanSqliteDatamapper;
 
 public class Main {
 
@@ -21,10 +23,16 @@ public class Main {
     }
 
     public static void main(String[] args) {
-        boolean dropAndCreateTables = true;
-        EbeanServer server = initializeDatabase(dropAndCreateTables, Database.SQLite);
-        new Application(server).run(dropAndCreateTables);
-    }
+//        boolean dropAndCreateTables = true;
+//        EbeanServer server = initializeDatabase(dropAndCreateTables, Database.SQLite);
+//        new Application(server).run(dropAndCreateTables);
+
+
+		boolean dropAndCreateTables = false;
+//		boolean dropAndCreateTables = true;
+		Datamapper mapper = new EbeanSqliteDatamapper("jdbc:sqlite:beer.db", dropAndCreateTables, Beer.class, Brewery.class, Rating.class, User.class);
+		new Application(mapper).run(dropAndCreateTables);
+	}
 
     private static EbeanServer initializeDatabase(boolean dropAndCreateDatabase, Database db) {
         ServerConfig config = new ServerConfig();

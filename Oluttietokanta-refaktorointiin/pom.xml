@@ -84,6 +84,7 @@
                     <source>1.6</source>
                     <target>1.6</target>
                 </configuration>
+				<version>3.1</version>
             </plugin>
              
             <plugin>
@@ -102,6 +103,7 @@
                 <configuration>
                     <useSystemClassLoader>false</useSystemClassLoader>
                 </configuration>
+				<version>2.14.1</version>
             </plugin>	       
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
